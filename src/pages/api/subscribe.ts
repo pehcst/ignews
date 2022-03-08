@@ -9,7 +9,7 @@ type User = {
     id: string;
   };
   data: {
-    stripe_customer_id: string;
+    stripeCustomerId: string;
   };
 };
 
@@ -23,16 +23,16 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       q.Get(
         q.Match(
           q.Index("user_by_email"),
-          q.Casefold(session?.user?.email as string)
+          q.Casefold(session!.user!.email as string)
         )
       )
     );
 
-    let customerId = user.data.stripe_customer_id;
+    let customerId = user.data.stripeCustomerId;
 
     if (!customerId) {
       const stripeCustomer = await stripe.customers.create({
-        email: session?.user?.email as string,
+        email: session!.user!.email as string,
         //metadata
       });
 
