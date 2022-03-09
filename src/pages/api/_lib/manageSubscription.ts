@@ -13,7 +13,6 @@ export async function saveSubscription(
       q.Get(q.Match(q.Index("user_by_stripe_customer_id"), customerId))
     )
   );
-  console.log(userRef);
   const subscription = await stripe.subscriptions.retrieve(subscriptionId);
 
   const subscriptionData = {
@@ -22,7 +21,6 @@ export async function saveSubscription(
     status: subscription.status,
     priceId: subscription.items.data[0].price.id,
   };
-  console.log(subscriptionData);
 
   if (createAction) {
     await fauna.query(
